@@ -23,6 +23,7 @@ module.exports = {
     __dirname: false,
   },
   target: 'node',
+  devtool: 'source-map',
   output: {
     filename: 'app.js',
     libraryTarget: 'commonjs2',

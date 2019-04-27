@@ -2,6 +2,7 @@ const path = require('path');
 
 module.exports = {
   entry: './src/app.js',
+  watch: process.env.WATCH_SERVER ? true : false,
   module: {
     rules: [
       {
@@ -15,6 +16,11 @@ module.exports = {
         }
       }
     ]
+  },
+  node: {
+    // Allow __dirname to follow nnormal Node.js behavior rather than be fixed to "/"
+    // https://webpack.js.org/configuration/node/#node-__dirname
+    __dirname: false,
   },
   target: 'node',
   output: {

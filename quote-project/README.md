@@ -1,3 +1,15 @@
+# Titan Takehome
+
+Hey there! Thanks for your interest in Titan and welcome to our takehome exercise.
+
+This exercise is made up of two parts, a website with a simple UI to search for stocks and see data about them and a backend API that serves up financial data about stock symbols (the short character sequences that identify a stock on an exchange, e.g. FB - Facebook, GOOG - Google).
+
+You'll find the specifications of each part below. These specifications are purposefully light on implementation details so make whatever assumptions/choices you deem appropriate but make them for good reasons. We'll talk about them when we review your submission together.
+
+You'll be given 3 days to return this exercise to us. We designed this exercise to take around 3-6 hours depending on experience. You are free to spend as much time as you like but we're looking for something that could conceivably be built in that time frame so don't spend significantly more time trying to add more features or make the code prettier.
+
+As Titan uses NodeJS and React, starter files for those frameworks are included (see the the Starter Files section at the end) and you are encouraged to use them if you're familiar with them. If not, don't worry, you can use whichever technology you like. If you do use a different technology simply include your code and instructions on how to build/run it.
+
 # Website Requirements
 
 You can think of this as a very simple Google or Yahoo finance.

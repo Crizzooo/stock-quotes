@@ -1,8 +1,11 @@
 import express from 'express';
 import path from 'path';
 
+// Use babel polyfill to support features like async class methods
+import 'babel-polyfill';
+
 import { FRONT_END_DIST_PATH, FRONT_END_ENTRY_PATH } from './config';
-import apiRouter from './routes/api';
+import apiRouter from './api';
 
 const app = express();
 

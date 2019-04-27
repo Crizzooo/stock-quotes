@@ -1,0 +1,22 @@
+{
+  "name": "stock-quotes-application",
+  "version": "1.0.0",
+  "description": "You can think of this as a very simple Google or Yahoo finance.",
+  "main": "quote-api/bin/www",
+  "scripts": {
+    "start": "cd quote-api && npm start",
+    "init": "npm run init-app && npm run init-server",
+    "init-app": "cd quote-ui && npm install && npm run build",
+    "init-server": "cd quote-api && npm install && npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Crizzooo/stock-quotes.git"
+  },
+  "author": "Christopher Rizzo (http://crizzo.tech)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Crizzooo/stock-quotes/issues"
+  },
+  "homepage": "https://github.com/Crizzooo/stock-quotes#readme"
+}

@@ -1,5 +1,9 @@
 .App {
   text-align: center;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .App-header {
@@ -15,4 +19,50 @@
 
 .App-link {
   color: #61dafb;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  justify-content: center;
+}
+
+.search-row {
+  position: relative;
+  width: 100%;
+}
+
+.search-container {
+  width: 25vw;
+  min-width: 400px;
+  max-width: 800px;
+  position: relative;
+  margin-top: 48vh;
+  padding: 2px;
+}
+
+input {
+  outline: none;
+}
+
+.search-results {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  border: solid grey;
+  border-width: 0px 1px 1px 1px;
+  border-radius: 0px 0px 5px 5px;
+  padding-bottom: 3px;
+}
+
+.search-result-row {
+  display: flex;
+  flex-direction: row;
+  cursor: pointer;
+  padding: 3px;
+}
+
+.search-result-row:hover {
+  background-color: #eee;
 }

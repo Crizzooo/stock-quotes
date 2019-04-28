@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 
+import './css/index.css';
 import './App.css';
+
+import { SearchContainer } from './Components/Search';
 
 class App extends Component {
 
@@ -9,10 +12,14 @@ class App extends Component {
     fetch('/api').then( (res) => res.text() ).then(console.log);
   }
 
+  onSearchChange(value) {
+    console.log('new value: ', value);
+  }
+
   render() {
     return (
       <div className="App">
-        Welcome to Stock Picker
+        <SearchContainer onSearchChange={ (val) => this.onSearchChange(val) }/>
       </div>
     );
   }

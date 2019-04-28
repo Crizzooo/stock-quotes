@@ -35,7 +35,7 @@ class SymbolCache {
 		return this.cache.getAll();
 	}
 
-	find(searchTerm) {
+	find(searchTerm, { searchByCompany = true } = {}) {
 		// If we have nothing to search by, just return all of the data in the cache
 		// rather than needlessly recursing the search trees
 		if (!searchTerm) {
@@ -43,12 +43,21 @@ class SymbolCache {
 		}
 
 		const foundSymbols = this.symbolTree.find(searchTerm);
-		const foundCompanies = this.companyTree.find(searchTerm);
+		const foundCompanies = searchByCompany ? this.companyTree.find(searchTerm) : [];
 
 		// As we do not change any object references in our creation of the search tree
 		// We can remove duplicates by converting to a set
 		// There may be some performance considerations worth discussing here if given more time
 		return Array.from(new Set([ ...foundSymbols, ...foundCompanies ]));
+	}
+
+	findSymbol(symbol) {
+		const results = this.find(symbol, { searchByCompany: false });
+		const matches = results.filter( (company) => {
+			return company.symbol === symbol.toUpperCase();
+		});
+		if (!matches.length) return null;
+		return matches[0];
 	}
 }
 

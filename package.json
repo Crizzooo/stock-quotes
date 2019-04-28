@@ -27,5 +27,6 @@
     "eslint-plugin-react": "^7.12.4"
   },
   "dependencies": {
+    "react-redux": "^7.0.3"
   }
 }

@@ -24,6 +24,10 @@ export class SearchNode {
 		// when there are no more characters, we will retur that node's values, as
 		// well as the values of any further nested search strings
 		const characters = searchTerm.split('');
+
+		/* If we converted to a For Loop we could completely exit early
+		 * rather than waiting to reduce all characters
+		 */
 		const startNode = characters.reduce( (node, character) => {
 			if (!node) return null;
 			const nextNode = node.children[character];

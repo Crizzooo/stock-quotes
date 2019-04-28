@@ -51,10 +51,9 @@ export class SearchNode {
 	}
 }
 
-
 export default class SearchTree {
-	constructor(data, cacheKeyProperty, options = {}) {
-		const { normalizeCase = true } = options;
+	constructor(data, cacheKeyProperty, { normalizeCase = true } = {}) {
+		const options = { normalizeCase };
 		this.normalizeCase = normalizeCase;
 		this.tree = SearchTree.makeTree(data, cacheKeyProperty, options);
 	}

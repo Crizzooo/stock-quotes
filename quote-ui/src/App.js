@@ -1,28 +1,42 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 import './css/index.css';
 import './App.css';
 
-import { SearchContainer } from './Components/Search';
+import { StockSearch } from './Components/Search';
+import StockSearchSelectors from './reducers/StockSearch/selectors';
+import { startStockSearchRequest } from './reducers/StockSearch/reducer';
 
 class App extends Component {
 
-  componentDidMount() {
-    console.log('fetching API test');
-    fetch('/api').then( (res) => res.text() ).then(console.log);
-  }
-
   onSearchChange(value) {
-    console.log('new value: ', value);
+    this.props.startStockSearch(value);
   }
 
   render() {
+    let { searchResults } = this.props;
     return (
       <div className="App">
-        <SearchContainer onSearchChange={ (val) => this.onSearchChange(val) }/>
+        <StockSearch 
+          results={searchResults}
+          onSearchChange={ (val) => this.onSearchChange(val) }
+          />
       </div>
     );
   }
 }
 
-export default App;
+function mapState(state) {
+  return {
+    searchResults: StockSearchSelectors.searchResults(state)
+  };
+}
+
+function mapDispatch(dispatch) {
+  return {
+    startStockSearch: (val) => dispatch(startStockSearchRequest(val))
+  }
+}
+
+export default connect(mapState, mapDispatch)(App);

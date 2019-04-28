@@ -4,10 +4,12 @@
         "sourceType": "module"
     },
     "rules": {
-        "indent": ["error", 4],
+        "indent": ["error", "tab"],
+        "no-tabs": "off",
         "space-in-parens": "off",
         "no-console": "off",
-        "quotes": "off"
+        "quotes": "off",
+        "array-bracket-spacing": "off"
     },
     "extends": "airbnb"
 }

@@ -4,19 +4,46 @@ import SymbolCache from '../../services/SymbolCache';
 
 const stocksRouter = express.Router();
 
-stocksRouter.use( (req, res, next) => {
-	console.log('hit api/stocks');
-	next();
-});
+stocksRouter.get('/quotes/:symbol', async (req, res) => {
+	const { symbol } = req.params;
+	const match = SymbolCache.findSymbol(symbol);
 
-stocksRouter.get('/quotes/:symbol', (req, res, next) => {
-	// verify is symbol
-	// handle if not in symbol cache
+	/* If it's not in our cache ( which should be updated with IEX )
+	 * we can skip the API Call and tell the frontend we could not find it.
+	 */
+	if (!match) {
+		res.send({
+			data: null,
+			error: {
+				message: `${symbol} could not be found!`,
+			},
+		});
+		return;
+	}
 
-	// visit cache and grab symbol
-	// if not in cache, call getSymbol
-	// add to cache, send
-	next();
+	try {
+		const [ quoteData, chartData ] = await Promise.all( [
+			StockQuotes.getQuote(symbol),
+			StockQuotes.getChart(symbol)
+		]);
+
+		res.send({
+			data: {
+				quote: quoteData,
+				chart: chartData,
+			},
+		});
+	} catch (e) {
+		// In a production evironment, we would want to do more than log this error to the console
+		console.error('Error occurred when requesting quote data.');
+		console.error(e);
+		res.send({
+			data: null,
+			error: {
+				message: 'An error occurred while requesting quote data'
+			}
+		});
+	}
 });
 
 stocksRouter.get('/symbols/:searchString', (req, res, next) => {

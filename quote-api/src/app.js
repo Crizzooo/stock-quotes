@@ -1,7 +1,7 @@
 import express from 'express';
 import path from 'path';
 import morgan from 'morgan';
-
+import cors from 'cors';
 // Use babel polyfill to support features like async class methods
 import 'babel-polyfill';
 
@@ -14,6 +14,8 @@ const app = express();
 // Route logging with minimal output, but could use an
 // ehanced format and write to log files if this were a productionn app
 app.use(morgan('dev'));
+
+app.use(cors());
 
 app.use('/api', apiRouter);
 

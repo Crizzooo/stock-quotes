@@ -14,7 +14,6 @@ class SymbolCache {
 
 		try {
 			symbols = await StockQuotes.getSymbols();
-			console.log(symbols[0]);
 		} catch (e) {
 			console.error('Could not receive symbols from API!');
 			throw e;

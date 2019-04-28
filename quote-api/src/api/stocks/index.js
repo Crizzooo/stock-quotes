@@ -1,30 +1,47 @@
 import express from 'express';
 import StockQuotes from '../../services/StockQuotes';
+import SymbolCache from '../../services/SymbolCache';
 
+const stocksRouter = express.Router();
 
-const app = express();
-
-app.get('/symbols', (req, res) => {
-    // return all symbols in cache
+stocksRouter.use( (req, res, next) => {
+	console.log('hit api/stocks');
+	next();
 });
 
-app.get('/symbols/:searchString', (req, res) => {
-    // search symbol cache by company or symbol
-    // return results
+stocksRouter.get('/quotes/:symbol', (req, res, next) => {
+	// verify is symbol
+	// handle if not in symbol cache
+
+	// visit cache and grab symbol
+	// if not in cache, call getSymbol
+	// add to cache, send
+	next();
 });
 
-app.get('/:symbol', (req, res) => {
-    // verify is symbol
-    // handle if not in symbol cache
-
-    // visit cache and grab symbol
-    // if not in cache, call getSymbol
-    // add to cache, send
+stocksRouter.get('/symbols/:searchString', (req, res, next) => {
+	try {
+		// search symbol cache by company or symbol
+		const searchTerm = req.params.searchString;
+		const results = SymbolCache.find(searchTerm);
+		res.send(results);
+	} catch (e) {
+		next(e);
+	}
 });
 
-app.get('/', (req, res) => {
-    // We could enhance this to send back the list of available routes
-    res.send(`You've hit the Stocks API Entry Point!`);
+stocksRouter.get('/symbols', (req, res, next) => {
+	try {
+		const symbols = SymbolCache.getAllSymbols();
+		res.send(symbols);
+	} catch (e) {
+		next(e);
+	}
 });
 
-export default app;
+stocksRouter.get('/', (req, res) => {
+	// We could enhance this to send back the list of available routes
+	res.send(`You've hit the Stocks API Entry Point!`);
+});
+
+export default stocksRouter;

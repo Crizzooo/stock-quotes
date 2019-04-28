@@ -54,15 +54,34 @@ input {
   border-width: 0px 1px 1px 1px;
   border-radius: 0px 0px 5px 5px;
   padding-bottom: 3px;
+  max-height: 20vh;
+  overflow-y: auto;
 }
 
 .search-result-row {
-  display: flex;
+  display: inline-flex;
   flex-direction: row;
   cursor: pointer;
   padding: 3px;
+  min-height: max-content;
+  max-width: 100%;
+  font-size: 12px;
 }
 
 .search-result-row:hover {
   background-color: #eee;
+}
+
+.search-result-symbol {
+  display: inline-flex;
+  min-width: 70px;
+}
+
+.search-result-name {
+  display: inline-flex;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0px;
+  width: min-content;
+  overflow: hidden;
 }

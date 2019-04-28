@@ -1,13 +1,20 @@
 import express from 'express';
 import stocksRouter from './stocks';
 
-const app = express();
+const apiRouter = express.Router();
 
-app.use('/stocks', stocksRouter);
-
-app.get('/', (req, res) => {
-    // We could enhance this to send back the list of available routes
-    res.send(`You've hit the api entry point!`);
+apiRouter.use( (req, res, next) => {
+	console.log('hit api');
+	console.log(req.path);
+	next();
 });
 
-export default app;
+apiRouter.use('/stocks', stocksRouter);
+
+apiRouter.get('/', (req, res) => {
+	console.log('hit api root');
+	// We could enhance this to send back the list of available routes
+	res.send(`You've hit the api entry point!`);
+});
+
+export default apiRouter;

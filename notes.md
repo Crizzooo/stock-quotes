@@ -1,4 +1,4 @@
-# Thoughts
+# Overview
 Overall, I had a lot  of fun with this project as it involved demoing multiple different skills involved in fullstack development.
 
 I focused much of my time and design around creating 'fast' functionality versus a slick UI, and the UI could certainly use a more developed style, but its responsive (enough) and simple for what it does.
@@ -48,6 +48,8 @@ That's a long summary, so I'll try to provide a quick overview of the app archit
 
 The backend is largely isolated to the code within the `src` folder. The www script has been modified to run an async function to build the express app before listening. This function is responsible for loading symbols from IEX and building the search trees and symbol cache. As this functionality is required for the entire app, a failure will prevent the server from turning on. A retry / fallback mechanism to avoid caching/searching should certainly be included if this was production quality code.
 
+### File Structure 
+
 - api
     - holds all routes and route specific logic. The entire api is nested under `/api` and right now only has the `/api/stocks/` routes below it
 - config
@@ -82,8 +84,37 @@ The backend is largely isolated to the code within the `src` folder. The www scr
 - babel-polyfill - to allow async class methods
 
 ## Front End
+The Front End was largely designed with fast functionality in mind, rather than a sleek UI or styles. I do value design though, and can provide screenshots of some nicer UIs I have built in the past to demo this skill set.
+
+### Added Technologies
+- react-router - possibly overkill, but allows the user to jump / save a link to view the quote of specific stocks without needing to use the app search functionality
+- react-redux - used for handling state of search results
+- redux-logger - mostly for development purposes, but I've left it in as a test app
+- reselect - centralized way of pulling data from the store and performing logic that would be a bit  messy to have in the reducer or components themselves. I'm a big fan of usinng selectors for reasons we could discuss
+-  redux-saga  - over engineered for a small application, but it made the logic simpler to support the smooth searching functionality I wanted to demonstrate
+- highcharts & react-highcharts-jsx - to support charting functionality
+
+### File Structure
+Everything about our front end can be found in the `src` folder, and completed builds are served out of the `build` folder. I haven't used the public folder created by create-react-app and assume it could have been deleted, but this would be where we keep any static files,  and the Express server would also have to be edited to server static assets from here.
+- src
+    - css
+        - I'm unsure of best practice to keep all CSS in this folder or closer to the components. I've left the CRA sitewide index.css in here, and let relative component CSS files be located next to the component files.
+    - Components
+        - Header
+            - wrapper around the search functionnality
+        - Search
+            - holds CSS for the search bar and results, and the appropriate components for each
+            - the lower level Search Input uses React Hooks, which meant that some data had to be passed down a couple levels to it. Might not have been the best idea to experiment with new technologies in a challenge, or to switch styles within one application.
+        -  Quote
+            - holds components for displaying information about a quote, a component that uses highcharts but is hardcoded for our usage rather than a generic chart component
+    - reducers
+        - StockSearch
+            - I only used a reducer for handling the caching of search results and returning of relevant results. The Quote components got by with Class based state on their own
+    - requests
+        - small file that holds generic fetch functions for our main backend routes
 
 
 ##  Other thoughts
 - I only noticed that www was formatted with spaces instead of tabs after configuring eslint and my environnmet to use tabs. I've got no problem converting to spaces and converting to the style sheet used by whatever team I am on
-
+- I definitely over engineered a bit of architecture and solutions here, causing me to go over the budgeted time and turn in a project with no test specs. I hope it will however demonstrate that I am enjoy and am able to learn new technologies, new patterns, and am always thinking of performance or reusability 
+- The main goal was to demonstrate I am proficient and knowledgeable on modern front end and Node.js patterns, but would like to learn more best practices, architecture ideas, and strategies to make code more maintainable. Everything Ive written here is from my own knowledge and experience, as I do not currently work with any Node.js or React engineers. I am very hungry to work with those more experienced and to adopt the improved ways they might think about and develop solutions.

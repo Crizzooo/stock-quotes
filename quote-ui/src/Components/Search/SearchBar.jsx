@@ -2,21 +2,11 @@ import React, { useState } from 'react';
 
 const searchStyle = {
     minHeight: '20px',
-    borderRadius: '5px 0px 0px 0px',
+    borderRadius: '5px 5px 0px 0px',
     border: '1px solid grey',
     padding: '3px',
     paddingLeft: '5px',
     flex: '1'
-};
-
-const buttonStyle = {
-    display: 'flex',
-    background: 'blue',
-    borderRadius: '0px 5px 0px 0px',
-    alignItems: 'center',
-    padding: '5px',
-    color: 'white',
-    cursor: 'pointer'
 };
 
 export default function SearchBar({ onFocus, onBlur, onChange }) {
@@ -30,11 +20,18 @@ export default function SearchBar({ onFocus, onBlur, onChange }) {
                    value={searchVal} 
                    onChange={ (e) => handleChange(e.target.value) } 
                    onFocus={ () => onFocus() }
-                   onBlur={ () => onBlur() }
+                   onBlur={ () => { 
+                       /* onBlur is also fired when we click a search result row
+                        * Which hides the search results and the click is never registered.
+                        * This is a temporary hacky fix, to give any click handlers  time
+                        * to process their clicks before the input is hidden.
+                        * There is probably a better way to have designed the hiding of the
+                        * dropdown results if given more time for development.
+                        */
+                       setTimeout( () => onBlur(), 250 ) 
+                    }
+                   }
                    />
-            <div style={buttonStyle}>
-                Search
-            </div>
         </div> 
     );
 

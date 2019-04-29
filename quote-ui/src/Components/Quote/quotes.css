@@ -1,0 +1,53 @@
+
+#quote-info {
+    min-width: 50vw;
+}
+
+#quote-info h1,
+#quote-info h2,
+#quote-info h3,
+#quote-info h4,
+#quote-info h5,
+#quote-info h6 {
+    margin: 0px;
+}
+
+#quote-display {
+    max-width: 90vw;
+    width: 600px;
+}
+
+#quote-header {
+    text-align: left;
+}
+
+#quote-chart {
+    margin-top: 20px;
+}
+
+.quote-row {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 12px;
+}
+
+.quote-price-row {
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.quote-stat {
+    
+}
+
+.quote-stat-label {
+    margin-right: 5px;
+}
+
+.quote-stat-value {
+    font-weight: 500;
+}

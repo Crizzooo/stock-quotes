@@ -1,27 +1,20 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Route } from 'react-router';
 
 import './css/index.css';
 import './App.css';
 
-import { StockSearch } from './Components/Search';
-import StockSearchSelectors from './reducers/StockSearch/selectors';
-import { startStockSearchRequest } from './reducers/StockSearch/reducer';
+import Header from './Components/Header';
+import Quote from './Components/Quote';
 
 class App extends Component {
 
-  onSearchChange(value) {
-    this.props.startStockSearch(value);
-  }
-
   render() {
-    let { searchResults } = this.props;
     return (
       <div className="App">
-        <StockSearch 
-          results={searchResults}
-          onSearchChange={ (val) => this.onSearchChange(val) }
-          />
+            <Route path="/" component={Header} />
+            <Route path="/quotes/:symbol" component={Quote} />
       </div>
     );
   }
@@ -29,13 +22,13 @@ class App extends Component {
 
 function mapState(state) {
   return {
-    searchResults: StockSearchSelectors.searchResults(state)
+
   };
 }
 
 function mapDispatch(dispatch) {
   return {
-    startStockSearch: (val) => dispatch(startStockSearchRequest(val))
+
   }
 }
 

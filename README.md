@@ -9,3 +9,9 @@
     - this starts the express server, but not the react development server
     - express server will serve the application  regardless
 - open `http://localhost:3001/`
+
+# Using the Application
+- search by a symbol or company name by typing in the input
+- results will populate when 2 or more characters are present
+- click a search result to populate quote information
+- or, visit http://localhost:3001/quotes/___SYMBOL_HERE___ and replace the last term with the symbol you are looking for

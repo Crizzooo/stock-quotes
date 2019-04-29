@@ -19,9 +19,10 @@ class SymbolCache {
 			throw e;
 		}
 
-		// add stock data to a cache by ticker and payload
+		// add symbol data to a cache by ticker and payload
 		// As of now, we are not going to clear this cache ever. Its refreshed on server load,
 		// but if it was a real application, maybe we would want to refresh once a day from a script
+		// and possibly use a data store like redis instead of a vanilla js solution.
 		symbols.forEach( (payload) => {
 			const { symbol } = payload;
 			this.cache.add({ key: symbol, val: payload }, { shouldClear: false });
@@ -35,7 +36,7 @@ class SymbolCache {
 		return this.cache.getAll();
 	}
 
-	find(searchTerm, { searchByCompany = true } = {}) {
+	find(searchTerm) {
 		// If we have nothing to search by, just return all of the data in the cache
 		// rather than needlessly recursing the search trees
 		if (!searchTerm) {
@@ -43,7 +44,7 @@ class SymbolCache {
 		}
 
 		const foundSymbols = this.symbolTree.find(searchTerm);
-		const foundCompanies = searchByCompany ? this.companyTree.find(searchTerm) : [];
+		const foundCompanies = this.companyTree.find(searchTerm);
 
 		// As we do not change any object references in our creation of the search tree
 		// We can remove duplicates by converting to a set
@@ -52,12 +53,20 @@ class SymbolCache {
 	}
 
 	findSymbol(symbol) {
-		const results = this.find(symbol, { searchByCompany: false });
-		const matches = results.filter( (company) => {
-			return company.symbol === symbol.toUpperCase();
-		});
-		if (!matches.length) return null;
-		return matches[0];
+		/* This method should only be called with a symbol
+		 * and so it can go directly to the symbol cache.
+		 * Symbols should have been added to the cache from the API
+		 * and therefore will all be uppercase.
+		 * We should look in the cache with the uppercased value of what is passed in.
+		 */
+		const cacheKey = symbol.toUpperCase();
+		const isInCache = this.cache.has(cacheKey);
+
+		if (isInCache) {
+			return this.cache.get(cacheKey);
+		}
+
+		return null;
 	}
 }
 

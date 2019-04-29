@@ -21,6 +21,8 @@ class Cache {
 		this.set(key, val);
 		if (shouldClear) {
 			setTimeout( () => {
+				// Leaving this console.log in for transparency when running the server
+				console.log('deleting key from cache', key);
 				this.delete(key);
 			}, clearTimeout);
 		}

@@ -18,13 +18,13 @@ However, I opted to keep the web app as light as possible, by searching the list
 
 To keep that search fast, when loading all symbols on server initialization, I create search trees of the Tickers and Company Names. When typing in the application search bar, a request will constantly go to the backend to get all search results - trying for both symbol matches and company names.
 
-The idea was to avoid iterating over the entire array of almost 9000 companies, but again, I know that that dataset isnt THAT large. This was probably over engineered in that regard, but I wanted to demo a more complex solution, and I'd love to know your approach to a problem like this. Searching on the backend will generally only take a few ms now ( sometimes less than 1 ), so I'd consider it successful. With more time, I wanted to write a script to test the performance of iterating over the 9000 companies to find ticker matches, vs using the search tree.
+The idea was to avoid iterating over the entire array of almost 9000 companies, but again, I know that that dataset isnt THAT large. This was probably over engineered in that regard, but I wanted to demo a more complex solution, and I'd love to know your approach to a problem like this. Searching on the backend will generally only take a few ms now ( often less than 1ms ), so I'd consider it successful. With more time, I wanted to write a script to test the performance of iterating over the 9000 companies to find ticker matches, vs using the search tree.
 
-I elected not to debounce the search results on the front end, but will do a search request for every typed character after 2 characters. Sometimes debouncing can feel a bit sluggish to the user, but the server is at risk of being 'bombed' by continually updating that search input with strings programatically.
+I elected not to debounce the search results on the front end, but will do a search request for every typed character after 2 characters and cache the results on the front end state. Sometimes debouncing can feel a bit sluggish to the user, but the server is at risk of being 'bombed' by continually updating that search input with strings programatically.
 
 The search results dropdown is inspired by google, which has a constant drop down of suggested results. While searching results for your latest entered character (i.e GOOG), the results will still display the results for 'GOO', which can be helpful for a user to notice that they may be able to stop typing and already have the result they are looking for.
 
-Every search result is stored in the state of the web app, to again, decrease server load for repeated search terms, and to keep the search fast. To help with this request logic and updating results while multiple search requests are possibly going on, I elected to use Redux Saga over Redux Thunk. I honestly have not used Saga's before, but it seemed like it made the logic a bit easier, and I'd use them again in the future, or begin learning Redux Obseravbles. I've only used Thunks in the past, but am always open to learning and immitating the solutions and best practices established by the team.
+Every search result is stored in the state of the web app, to again, decrease server load for repeated search terms, and to keep the search fast. To help with this request logic and updating results while multiple search requests are possibly going on, I elected to use Redux Saga over Redux Thunk. I honestly have not used Saga's before, but it seemed like it made the logic a bit easier, and I'd use them again in the future, or begin learning Redux Obseravbles. I've only used Thunks in the past, but am always open to learning and imitating the solutions and best practices established by the team.
 
 After selecting a search result, the backend is queried to fetch the Quote data. I wrote a small Cache class, where the backend caches results for a symbol and deletes them after an interval. Any requests during that time period will be served from the cache instead. This interval is set in the backend configs folder so that this business logic can easily be updated.
 
@@ -53,7 +53,7 @@ The backend is largely isolated to the code within the `src` folder. The www scr
 - api
     - holds all routes and route specific logic. The entire api is nested under `/api` and right now only has the `/api/stocks/` routes below it
 - config
-   - holds useful project wide configuration settings, such as the folders for serving static files and the clear timer of the quoteData cache
+   - holds useful project wide configuration settings, such as the folder paths for serving static files and the clear timer of the quoteData cache
 - services
     - Classes that support functionality of the route logic
     - QuoteCache
@@ -75,7 +75,7 @@ The backend is largely isolated to the code within the `src` folder. The www scr
         - It's used to create search trees of all Symbols and Company Names, and then has a built in recursive find() function that will run in O(n) time where N is the length of characters in your search string, rather than the size of the data set. We've obviously increased the required space on our server to support a faster search performance ( relative to the amount of characters in the cached properties of the dataset )
         - Again, this really should be unit tested
 - app.js
-    - This is the core express server, and I'd begin reading the code base from here followed by the api routes.
+    - core express server & mounting of routes
 
 ### Added Backend Technologies
 - axios - for interacting with IEX API
@@ -115,7 +115,21 @@ Everything about our front end can be found in the `src` folder, and completed b
 
 
 ##  Other thoughts
-- I only noticed that www was formatted with spaces instead of tabs after configuring eslint and my environnmet to use tabs. I've got no problem converting to spaces and converting to the style sheet used by whatever team I am on
 - I am only displaying a chart of the last month, but the API Service currently can be called with different chart lengths supported by IEX from other scripts, and the front end could easily be enhanced to support a dropdown chart with these values to update the data timeline and chart
 - I definitely over engineered a bit of architecture and solutions here, causing me to go over the budgeted time and turn in a project with no test specs. I hope it will however demonstrate that I am enjoy and am able to learn new technologies, new patterns, and am always thinking of performance or reusability 
 - The main goal was to demonstrate I am proficient and knowledgeable on modern front end and Node.js patterns, but would like to learn more best practices, architecture ideas, and strategies to make code more maintainable. Everything Ive written here is from my own knowledge and experience, as I do not currently work with any Node.js or React engineers. I am very hungry to work with those more experienced and to adopt the improved ways they might think about and develop solutions.
+- I only noticed that www was formatted with spaces instead of tabs after configuring eslint and my environnmet to use tabs. I've got no problem converting to spaces and writing in accordance with the style guide used by whatever team I work with
+
+## What I saw as Weaknesses
+- best practices for handling errors and alerting users in production environments
+- clear naming of folders and services
+- consistent styling of comments and interface design
+- lack of testing
+- lack of styling and branding
+- search only matches from the start of the term. i.e you can't find `Apple Inc` by searching `Inc`
+
+## What I saw as Strengths
+- performance of search functionality
+- searching by company name or symbol
+- ability to leverage existing service interface or utility classes to quickly implement additional, similar functionality
+

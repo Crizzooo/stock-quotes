@@ -1,6 +1,6 @@
 
 #quote-info {
-    min-width: 50vw;
+    width: 100%;
 }
 
 #quote-info h1,
@@ -15,6 +15,7 @@
 #quote-display {
     max-width: 90vw;
     width: 600px;
+    min-width: 50vw;
 }
 
 #quote-header {
@@ -38,10 +39,6 @@
     display: inline-flex;
     flex-direction: row;
     align-items: center;
-}
-
-.quote-stat {
-    
 }
 
 .quote-stat-label {
